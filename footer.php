@@ -1,5 +1,5 @@
 <!-- Blog Sidebar Widgets Column -->
-<div class="col-md-4">
+<div class="col-md-4" >
 
     <!-- Blog Search Well -->
     <div class="well">
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-</div>
+
 <!-- /.row -->
 
 <hr>
@@ -65,12 +65,58 @@
 </div>
 <!-- /.container -->
 
+<!--Modal Content-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Добавим пост!</h4>
+            </div>
+            <form  method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="well">
+                        <div class="form-group">
+                            <label for="title">Заголовок поста</label>
+                            <input class="form-control" type="text" name="title" id="title" placeholder="Введите заголовок...">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Текст поста</label>
+                            <textarea rows="4" class="form-control" name="content" id="content" placeholder="Раскройте тему сдесь..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="data">Выбор изображения</label>
+                            <input type="file" name="data" id="data">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Категория поста</label>
+                            <select class="form-control" name="category" id="category">
+                               <option value="1" selected="selected">Семья</option>
+                                <option value="2">Работа</option>
+                                <option value="3">Фриланс</option>
+                                <option value="4">Отдых</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="addPost" id="addPost" class="btn btn-primary">Добавить</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="js/functions.js"></script>
 </body>
 
 </html>
