@@ -10,10 +10,12 @@ footer {
     width: 100px;
 }
 
-#errorName,#errorComment{
+#errorName,#errorComment,#errorTitle,#errorContent,#errorFile{
     color:red;
     font-size: 0.9em;
 }
+
+
 label{
     text-shadow: 2px 2px 0px white;
 }
