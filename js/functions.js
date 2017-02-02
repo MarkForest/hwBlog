@@ -38,7 +38,6 @@ $(document).ready(function(){
         var title = $('#title').val();
         var content = $('#content').val();
         var fileType = $('#data').val().split('\\').pop().split('.').pop();
-        alert(fileType!=""?'true':'false');
 
         if(title=="") {
             errorTitle.text("Это поле обезательное к заполнению!");

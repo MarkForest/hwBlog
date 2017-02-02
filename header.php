@@ -32,11 +32,15 @@
                     }
                 }
 
-                $sqlForAddPost = "insert into posts(category_id,published_date,path_img,title,content)
-                                              values($category,'$dbdate','$pathImage','$title','$content')";
-                $db->commit();
-                $db->exec($sqlForAddPost);
 
+                $st = $db->prepare("insert into posts(category_id,published_date,path_img,title,content)values(:category,:dbdate,:pathImage,:title,:content)");
+                $st->bindParam(':category',$category);
+                $st->bindParam(':dbdate',$dbdate);
+                $st->bindParam(':pathImage',$pathImage);
+                $st->bindParam(':title',$title);
+                $st->bindParam(':content',$content);
+                $st->execute();
+                $db->commit();
             }catch(PDOException $ex){
                 $db->rollBack();
                 echo "<p style='color:red'>{$ex->getMessage()}</p>";

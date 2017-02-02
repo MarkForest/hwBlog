@@ -10,9 +10,9 @@ try {
 
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
-        $sql = "select * from posts,categories where posts.category_id=categories.id and posts.id=$id";
-        $sqlComments = "select * from comments where post_id=$id ORDER by id DESC";
-        foreach($db->query($sql) as $row) {
+        $st=$db->prepare("select * from posts,categories where posts.category_id=categories.id and posts.id=:id");
+        $st->execute(array('id'=>$id));
+        foreach($st->fetchAll() as $row){
             $titlePost=$row['title'];
             $nameCategory = $row['name'];
             $published_date = $row['published_date'];
@@ -32,9 +32,13 @@ if(isset($_POST['addComment'])){
         $textComment = $_POST['textComment'];
         $dbdate = date("F d, Y")." at ".date("H:i A");
         $idPost = $_GET['id'];
-        $sql = "insert into comments(comment_text,post_id,nameUser,published_date)VALUES('$textComment',$idPost,'$nameUser','$dbdate')";
+        $st = $db->prepare("insert into comments(comment_text,post_id,nameUser,published_date)VALUES(:textComment,:idPost,:nameUser,:dbdate)");
+        $st->bindParam(':textComment',$textComment);
+        $st->bindParam(':idPost',$idPost);
+        $st->bindParam(':nameUser',$nameUser);
+        $st->bindParam(':dbdate',$dbdate);
+        $st->execute();
         $db->commit();
-        $db->exec($sql);
     }
 
 }
@@ -106,7 +110,10 @@ include_once "header.php"
                 <!-- Posted Comments -->
 
                 <!-- Comment -->
-                <?php foreach($db->query($sqlComments) as $row):?>
+                <?php
+                $st = $db->prepare("select * from comments where post_id=:id ORDER by id DESC");
+                $st->execute(array('id'=>$id));
+                foreach($st->fetchAll() as $row):?>
                 <div class="media">
                     <a class="pull-left userPhoto" href="#">
                         <img class="media-object img-responsive" src="images/User.png" alt="">

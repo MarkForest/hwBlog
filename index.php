@@ -11,7 +11,9 @@ try {
     }else{
         $offset = $_GET['offset'];
     }
-    $sql = "select * from posts,categories where posts.category_id=categories.id order by posts.id desc limit $offset,4";
+
+
+
     $sqlCount = "select count(id) from posts";
     $countPosts="";
     foreach($db->query($sqlCount) as $row){$countPosts=$row['count(id)'];}
@@ -41,12 +43,15 @@ include_once "header.php";
                     <li class="previous <?php echo $offset==0?'hide':'show'?>">
                         <a href="index.php?offset=<?php echo $offset-4?>">&larr; Новые</a>
                     </li>
-                    <li class="next <?php echo $offset+4>$countPosts?'hide':'show'?>">
+                    <li class="next <?php echo $offset+4>=$countPosts?'hide':'show'?>">
                         <a href="index.php?offset=<?php echo $offset+4?>">Старые &rarr;</a>
                     </li>
                 </ul>
                 <!--Blog Posts -->
-                <?php foreach($db->query($sql) as $row):?>
+                <?php
+                $st=$db->prepare("select * from posts,categories where posts.category_id=categories.id order by posts.id desc limit :offset,4");
+                $st->execute(array('offset'=>$offset));
+                foreach($st->fetchAll() as $row):?>
                 <h2>
                     <a href="post.php?id=<?=$row[0]?>"><?=$row['title']?></a>
                 </h2>
@@ -72,7 +77,7 @@ include_once "header.php";
                     <li class="previous <?php echo $offset==0?'hide':'show'?>">
                         <a href="index.php?offset=<?php echo $offset-4?>">&larr; Новые</a>
                     </li>
-                    <li class="next <?php echo $offset+4>$countPosts?'hide':'show'?>">
+                    <li class="next <?php echo $offset+4>=$countPosts?'hide':'show'?>">
                         <a href="index.php?offset=<?php echo $offset+4?>">Старые &rarr;</a>
                     </li>
                 </ul>
