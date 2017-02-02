@@ -1,3 +1,51 @@
+<?php
+    if(isset($_POST['addPost'])){
+        //переменные для проверки
+        $title=$_POST['title'];
+        $content = $_POST['content'];
+        $isChoiseFile = empty($_FILES);
+        if($title!="" && $content!=""){
+            try{
+                //переменные для вставки поста
+                $dbdate = date("F d, Y")." at ".date("H:i A");
+                $pathImage ="";
+                $uploadDir ="images";
+                $category = intval($_POST['category']);
+
+                //подключение к базе данных
+                $dsn = "sqlite:blog.sqlite";
+                $db=new PDO($dsn);
+                $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                $db->beginTransaction();
+
+                //загрузка изображения
+                if(!is_dir($uploadDir)){
+                    mkdir($uploadDir);
+                }
+
+                if(isset($_FILES['data'])){
+                    if($_FILES['data']['error']==UPLOAD_ERR_OK){
+                        $src = $_FILES['data']["tmp_name"];
+                        $fname = $_FILES['data']['name'];
+                        $pathImage = $uploadDir."/".$fname;
+                        move_uploaded_file($src,$pathImage);
+                    }
+                }
+
+                $sqlForAddPost = "insert into posts(category_id,published_date,path_img,title,content)
+                                              values($category,'$dbdate','$pathImage','$title','$content')";
+                $db->commit();
+                $db->exec($sqlForAddPost);
+
+            }catch(PDOException $ex){
+                $db->rollBack();
+                echo "<p style='color:red'>{$ex->getMessage()}</p>";
+            }
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,6 +91,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav pull-right">
+                <li>
+                    <a data-toggle="modal" data-target="#myModal" href="#" >Добавить пост</a>
+                </li>
                 <li>
                     <a href="#">Обо мне</a>
                 </li>
