@@ -11,6 +11,7 @@ try {
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
         $sql = "select * from posts,categories where posts.category_id=categories.id and posts.id=$id";
+        $sqlComments = "select * from comments where post_id=$id ORDER by id DESC";
         foreach($db->query($sql) as $row) {
             $titlePost=$row['title'];
             $nameCategory = $row['name'];
@@ -18,13 +19,25 @@ try {
             $path_img=$row['path_img'];
             $content = $row['content'];
         }
-
     }
+
 }catch(PDOException $ex){
     $db->rollBack();
     echo "<p style='color:red'>{$ex->getMessage()}</p>";
 }
 
+if(isset($_POST['addComment'])){
+    if($_POST['nameUser']!=""&&$_POST['textComment']!=""){
+        $nameUser = $_POST['nameUser'];
+        $textComment = $_POST['textComment'];
+        $dbdate = date("F d, Y")." at ".date("H:i A");
+        $idPost = $_GET['id'];
+        $sql = "insert into comments(comment_text,post_id,nameUser,published_date)VALUES('$textComment',$idPost,'$nameUser','$dbdate')";
+        $db->commit();
+        $db->exec($sql);
+    }
+
+}
 
 
 include_once "header.php"
@@ -32,7 +45,11 @@ include_once "header.php"
 
     <!-- Page Content -->
     <div class="container">
-
+        <ul class="pager">
+            <li class="previous">
+                <a href="index.php">&larr; На главную</a>
+            </li>
+        </ul>
         <div class="row">
 
             <!-- Blog Post Content Column -->
@@ -45,7 +62,7 @@ include_once "header.php"
 
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#"><?=$nameCategory?></a>
+                    Категория:  <a href="#"><?=$nameCategory?></a>
                 </p>
 
                 <hr>
@@ -68,12 +85,19 @@ include_once "header.php"
 
                 <!-- Comments Form -->
                 <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form">
+                    <h4>Оставьте комнтарий:</h4>
+                    <form role="form" method="post" id="comments">
                         <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <label for="name">Имя</label>
+                            <input class="form-control" type="text" name="nameUser" id="name" placeholder="Введите ваше имя...">
+                            <div id="errorName"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group">
+                            <label for="comment">Коментарий</label>
+                            <textarea id="comment" name="textComment" class="form-control" rows="3" placeholder="Пишите коментарий..."></textarea>
+                            <div id="errorComment"></div>
+                        </div>
+                        <button type="submit" name="addComment" class="btn btn-primary">Добавить</button>
                     </form>
                 </div>
 
@@ -82,43 +106,24 @@ include_once "header.php"
                 <!-- Posted Comments -->
 
                 <!-- Comment -->
+                <?php foreach($db->query($sqlComments) as $row):?>
                 <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    <a class="pull-left userPhoto" href="#">
+                        <img class="media-object img-responsive" src="images/User.png" alt="">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
+                        <h4 class="media-heading"><?=$row['nameUser']?>
+                            <small><?=$row['published_date']?></small>
                         </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        <?=$row['comment_text']?>
                     </div>
                 </div>
-
-                <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        <!-- Nested Comment -->
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placehold.it/64x64" alt="">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">Nested Start Bootstrap
-                                    <small>August 25, 2014 at 9:30 PM</small>
-                                </h4>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                            </div>
-                        </div>
-                        <!-- End Nested Comment -->
-                    </div>
-                </div>
+                <?php endforeach;?>
+                 <ul class="pager">
+                    <li class="previous">
+                        <a href="index.php">&larr; На главную</a>
+                    </li>
+                </ul>
 
             </div>
 
