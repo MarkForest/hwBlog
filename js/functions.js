@@ -25,4 +25,42 @@ $(document).ready(function(){
         }
     });
 
+    $("#formAddPost").submit(function(event){
+        var error = false;
+        var errorTitle = $('#errorTitle');
+        var errorContent = $('#errorContent');
+        var errorFile = $('#errorFile');
+
+        errorTitle.text("");
+        errorContent.text("");
+        errorFile.text("");
+
+        var title = $('#title').val();
+        var content = $('#content').val();
+        var fileType = $('#data').val().split('\\').pop().split('.').pop();
+        alert(fileType!=""?'true':'false');
+
+        if(title=="") {
+            errorTitle.text("Это поле обезательное к заполнению!");
+            error=true;
+        }
+        if(content==""){
+            errorContent.text("Это поле обезательное к заполнению!");
+            error=true;
+        }
+        if(fileType==""){
+            errorFile.text("Изображение не выбрано!");
+            error=true;
+        }
+        if(fileType!="jpg" && fileType!="png" && fileType!="jpeg" && fileType!="gif" && fileType!=""){
+            errorFile.text("Формат файла должен быть jpg,png,jpeg,gif!");
+            error=true;
+        }
+
+        if(error){
+            event.preventDefault();
+        }
+    });
+
+
 });
