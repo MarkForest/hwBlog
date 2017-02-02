@@ -66,7 +66,7 @@ include_once "header.php"
 
                 <!-- Author -->
                 <p class="lead">
-                    Категория:  <a href="#"><?=$nameCategory?></a>
+                    Категория:  <a href="category.php?category_id=<?=$row['id']?>"><?=$nameCategory?></a>
                 </p>
 
                 <hr>

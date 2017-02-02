@@ -56,15 +56,15 @@ include_once "header.php";
                     <a href="post.php?id=<?=$row[0]?>"><?=$row['title']?></a>
                 </h2>
                 <p class="lead">
-                    Категория:  <a href="index.php"><?=$row['name']?></a>
+                    Категория:  <a href="category.php?category_id=<?=$row['id']?>"><?=$row['name']?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Опубликовано <?=$row['published_date']?></p>
                 <hr>
                 <img class="img-responsive" src="<?=$row['path_img']?>" alt="">
                 <hr>
                 <p><?php
-                        $str=substr($row['content'],0,500)."...";
-                        echo $str;
+                        $str=substr(substr($row['content'],0,400),0,-10);
+                        echo $str.'...';
                     ?>
                 </p>
                 <a class="btn btn-primary" href="post.php?id=<?=$row[0]?>">Читать больше<span class="glyphicon glyphicon-chevron-right"></span></a>

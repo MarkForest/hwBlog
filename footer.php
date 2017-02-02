@@ -21,13 +21,13 @@
         <div class="row">
             <div class="col-xs-12">
                 <ul class="list-unstyled">
-                    <li><a href="#">Семья</a>
+                    <li><a href="category.php?category_id=1">Семья</a>
                     </li>
-                    <li><a href="#">Работа</a>
+                    <li><a href="category.php?category_id=2">Работа</a>
                     </li>
-                    <li><a href="#">Фриланс</a>
+                    <li><a href="category.php?category_id=3">Фриланс</a>
                     </li>
-                    <li><a href="#">Отдых</a>
+                    <li><a href="category.php?category_id=4">Отдых</a>
                     </li>
                 </ul>
             </div>
@@ -40,7 +40,7 @@
     <div class="well">
         <div class="widget">
             <h4>Кратко о блоге</h4>
-            <p>В этом блоге я рассказываю о себе, своих родных, друзей. Ну и про врагов забывать не будем</p>
+            <p>В этом блоге я рассказываю о себе, своих родных, друзей.</p>
             <img src="images/myfamily.jpg" alt="myfamilly" class="img-responsive">
         </div>
     </div>
