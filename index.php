@@ -1,6 +1,6 @@
 <?php
 $titlePage = "Home";
-$searchText = "";
+
 try {
     $dsn = "sqlite:blog.sqlite";
     $db = new PDO($dsn);
