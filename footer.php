@@ -1,17 +1,43 @@
 <!-- Blog Sidebar Widgets Column -->
+<?php
+    $famillyCount = "";
+    $workCount="";
+    $freelanceCount = "";
+    $relaxationСount = "";
+    try{
+        $dsn="sqlite:blog.sqlite";
+        $db = new PDO($dsn);
+        $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $db->beginTransaction();
+        $sql = "select count(id) from posts where category_id=1";
+        foreach($db->query($sql) as $row){$famillyCount=$row['count(id)'];}
+        $sql = "select count(id) from posts where category_id=2";
+        foreach($db->query($sql) as $row){$workCount=$row['count(id)'];}
+        $sql = "select count(id) from posts where category_id=3";
+        foreach($db->query($sql) as $row){$freelanceCount=$row['count(id)'];}
+        $sql = "select count(id) from posts where category_id=4";
+        foreach($db->query($sql) as $row){$relaxationСount=$row['count(id)'];}
+
+    }catch(PDOException $ex){
+        $db->rollBack();
+        echo $ex->getMessage();
+    }
+?>
 <div class="col-md-4" >
 
     <!-- Blog Search Well -->
     <div class="well">
         <h4>Поиск в блоге</h4>
-        <div class="input-group">
-            <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-        </div>
+        <form action="index.php" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchText" value="<?php if(isset($_POST['searchText']))echo $_POST['searchText'];if(isset($_GET['searchText'])) echo $_GET['searchText'];?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="btnSearch">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+            </div>
+        </form>
         <!-- /.input-group -->
     </div>
 
@@ -21,13 +47,13 @@
         <div class="row">
             <div class="col-xs-12">
                 <ul class="list-unstyled">
-                    <li><a href="category.php?category_id=1">Семья</a>
+                    <li><a href="category.php?category_id=1">Семья <span class="countCategory bg-info"> <?=$famillyCount?></span> </a>
                     </li>
-                    <li><a href="category.php?category_id=2">Работа</a>
+                    <li><a href="category.php?category_id=2">Работа <span class="countCategory bg-info"> <?=$workCount?></span></a>
                     </li>
-                    <li><a href="category.php?category_id=3">Фриланс</a>
+                    <li><a href="category.php?category_id=3">Фриланс<span class="countCategory bg-info"><?=$freelanceCount?></span></a>
                     </li>
-                    <li><a href="category.php?category_id=4">Отдых</a>
+                    <li><a href="category.php?category_id=4">Отдых <span class="countCategory bg-info"> <?=$relaxationСount?></span></a>
                     </li>
                 </ul>
             </div>
@@ -80,6 +106,11 @@
             <form  id="formAddPost" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="well">
+                        <div class="form-group">
+                            <label for="byAuthor">Автор</label>
+                            <input class="form-control" type="text" name="byAuthor" id="byAuthor" placeholder="Введите Ваше имя...">
+                            <div id="errorByAuthor"></div>
+                        </div>
                         <div class="form-group">
                             <label for="title">Заголовок поста</label>
                             <input class="form-control" type="text" name="title" id="title" placeholder="Введите заголовок...">

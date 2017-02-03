@@ -30,13 +30,16 @@ $(document).ready(function(){
         var errorTitle = $('#errorTitle');
         var errorContent = $('#errorContent');
         var errorFile = $('#errorFile');
+        var errorByAuthor = $('#errorByAuthor');
 
         errorTitle.text("");
         errorContent.text("");
         errorFile.text("");
+        errorByAuthor.text("");
 
         var title = $('#title').val();
         var content = $('#content').val();
+        var byAuthor = $('#byAuthor').val();
         var fileType = $('#data').val().split('\\').pop().split('.').pop();
 
         if(title=="") {
@@ -55,7 +58,10 @@ $(document).ready(function(){
             errorFile.text("Формат файла должен быть jpg,png,jpeg,gif!");
             error=true;
         }
-
+        if(byAuthor==""){
+            errorByAuthor.text("Это поле обезательное к заполнению!");
+            error=true;
+        }
         if(error){
             event.preventDefault();
         }

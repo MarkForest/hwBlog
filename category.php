@@ -1,6 +1,4 @@
 <?php
-//todo НЕ ЗАБЫТЬ ПРО TITLE!!!
-$titlePage = "";
 
 if(isset($_GET['category_id'])) {
     $getCategory=$_GET['category_id'];
@@ -23,19 +21,28 @@ if(isset($_GET['category_id'])) {
         foreach ($st->fetchAll() as $row) {
             $countPosts = $row['count(id)'];
         }
-
+        $st = $db->prepare("select name from categories where id=:getCategory");
+        $st->execute(array('getCategory'=>$getCategory));
+        foreach ($st->fetchAll() as $row) {
+            $titlePage = $row['name'];
+        }
     } catch (PDOException $ex) {
         $db->rollBack();
         echo "<p style='color:red'>{$ex->getMessage()}</p>";
     }
 }
+
 include_once "header.php";
 
 ?>
 
 <!-- Page Content -->
 <div class="container">
-
+    <ul class="pager">
+        <li class="previous">
+            <a href="index.php">&larr; На главную</a>
+        </li>
+    </ul>
     <div class="row">
 
         <!-- Blog Entries Column -->
@@ -43,8 +50,8 @@ include_once "header.php";
 
 
             <h1 class="page-header">
-                Новости
-                <small>Обо всем</small>
+                Категория: <?=$titlePage?>
+                <small> </small>
             </h1>
             <ul class="pager">
                 <li class="previous <?php echo $offset==0?'hide':'show'?>">
@@ -65,13 +72,15 @@ include_once "header.php";
                 <p class="lead">
                     Категория:  <a href="category.php?category_id=<?=$row['id']?>"><?=$row['name']?></a>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Опубликовано <?=$row['published_date']?></p>
+                <p><span class="glyphicon glyphicon-time"></span> Опубликовано <?=$row['published_date']?><span class="author pull-right bg-info"> Oт <?=$row['authorName']?></span></p>
+
                 <hr>
+
                 <img class="img-responsive" src="<?=$row['path_img']?>" alt="">
                 <hr>
                 <p><?php
                     $str=substr(substr($row['content'],0,400),0,-10);
-                    echo $str.'...';
+                    echo htmlentities($str,ENT_IGNORE).'...';
                     ?>
                 </p>
                 <a class="btn btn-primary" href="post.php?id=<?=$row[0]?>">Читать больше<span class="glyphicon glyphicon-chevron-right"></span></a>

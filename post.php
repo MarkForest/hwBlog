@@ -72,7 +72,7 @@ include_once "header.php"
                 <hr>
 
                 <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Опубликовано <?=$published_date?></p>
+                <p><span class="glyphicon glyphicon-time"></span> Опубликовано <?=$published_date?><span class="author bg-info pull-right"> Oт <?=$row['authorName']?></span></p>
 
                 <hr>
 
@@ -82,7 +82,7 @@ include_once "header.php"
                 <hr>
 
                 <!-- Post Content -->
-                <p><?=$content?></p>
+                <p><?=htmlentities($content,ENT_IGNORE)?></p>
                 <hr>
 
                 <!-- Blog Comments -->

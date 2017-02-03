@@ -10,7 +10,7 @@ footer {
     width: 100px;
 }
 
-#errorName,#errorComment,#errorTitle,#errorContent,#errorFile{
+#errorName,#errorComment,#errorTitle,#errorContent,#errorFile,#errorByAuthor{
     color:red;
     font-size: 0.9em;
 }
@@ -18,4 +18,27 @@ footer {
 
 label{
     text-shadow: 2px 2px 0px white;
+}
+
+.author{
+    border-radius: 5px;
+    box-shadow: 4px 3px 5px rgba(0,0,0,0.25);
+    padding: 3px;
+}
+#btnMenu{
+    background: url("../images/add.png") no-repeat left;
+    -webkit-background-size: 30px;
+    background-size: 30px;
+    padding-left: 30px;
+}
+
+.countCategory{
+    margin-left: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.list-unstyled li{
+    margin-bottom: 10px;
+
 }

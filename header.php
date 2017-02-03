@@ -3,8 +3,9 @@
         //переменные для проверки
         $title=$_POST['title'];
         $content = $_POST['content'];
+        $byAuthor = $_POST['byAuthor'];
         $isChoiseFile = empty($_FILES);
-        if($title!="" && $content!=""){
+        if($title!="" && $content!=""&& $byAuthor!=""){
             try{
                 //переменные для вставки поста
                 $dbdate = date("F d, Y")." at ".date("H:i A");
@@ -33,12 +34,13 @@
                 }
 
 
-                $st = $db->prepare("insert into posts(category_id,published_date,path_img,title,content)values(:category,:dbdate,:pathImage,:title,:content)");
+                $st = $db->prepare("insert into posts(category_id,published_date,path_img,title,content,authorName)values(:category,:dbdate,:pathImage,:title,:content,:byAuthor)");
                 $st->bindParam(':category',$category);
                 $st->bindParam(':dbdate',$dbdate);
                 $st->bindParam(':pathImage',$pathImage);
                 $st->bindParam(':title',$title);
                 $st->bindParam(':content',$content);
+                $st->bindParam(':byAuthor',$byAuthor);
                 $st->execute();
                 $db->commit();
             }catch(PDOException $ex){
@@ -90,26 +92,29 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">Блог AS</a>
+            <a class="navbar-brand" href="index.php">
+
+                Блог AS
+            </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav pull-right">
                 <li>
-                    <a data-toggle="modal" data-target="#myModal" href="#" >Добавить пост</a>
+                    <a data-toggle="modal" data-target="#myModal" href="#" id="btnMenu">Добавить пост</a>
                 </li>
-                <li>
-                    <a href="#">Обо мне</a>
-                </li>
-                <li>
-                    <a href="#">Сервисы</a>
-                </li>
-                <li>
-                    <a href="#">Контакты</a>
-                </li>
-                <li>
-                    <a href="#">Регистрация</a>
-                </li>
+<!--                <li>-->
+<!--                    <a href="#">Обо мне</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">Сервисы</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">Контакты</a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">Регистрация</a>-->
+<!--                </li>-->
             </ul>
         </div>
         <!-- /.navbar-collapse -->
