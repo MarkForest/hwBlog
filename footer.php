@@ -94,16 +94,16 @@
 <!-- /.container -->
 
 <!--Modal Content-->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document"aria-hidden="true">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Добавим пост!</h4>
+                <h4 class="modal-title" id="myModalLabel1">Добавим пост!</h4>
             </div>
-            <form  action="index.php" id="formAddPost" method="post" enctype="multipart/form-data">
+            <form id="formAddPost" action="#" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="well">
                         <div class="form-group">

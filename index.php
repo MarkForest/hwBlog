@@ -1,6 +1,7 @@
 <?php
-$titlePage = "Home";
 
+$titlePage = "Home";
+include_once "header.php";
 try {
     $dsn = "sqlite:blog.sqlite";
     $db = new PDO($dsn);
@@ -41,7 +42,7 @@ try {
     $db->rollBack();
     echo "<p style='color:red'>{$ex->getMessage()}</p>";
 }
-include_once "header.php";
+
 
 ?>
 
