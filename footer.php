@@ -103,7 +103,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Добавим пост!</h4>
             </div>
-            <form  id="formAddPost" method="post" enctype="multipart/form-data">
+            <form  action="index.php" id="formAddPost" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="well">
                         <div class="form-group">
